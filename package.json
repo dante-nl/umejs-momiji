@@ -1,11 +1,26 @@
 {
-    "name": "umejs-red-maple",
+    "name": "@dantenl/umejs-red-maple",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "A theme for umejs focussed on documentation",
+    "main": "ume.theme.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
-    "type": "commonjs"
+    "type": "module",
+    "files": [
+        "ume.theme.js",
+        "assets/",
+        "helpers/",
+        "lib/",
+        "partials/",
+        "templates/"
+    ],
+    "peerDependencies": {
+        "@dantenl/umejs": ">=1.3.0"
+    },
+    "dependencies": {
+        "lite-matter": "^0.1.2",
+        "node-html-parser": "^9.0.5"
+    }
 }
