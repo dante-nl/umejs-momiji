@@ -6,7 +6,12 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
+    "keywords": [
+        "umejs",
+        "ume-theme",
+        "documentation",
+        "static-site"
+    ],
     "type": "module",
     "files": [
         "ume.theme.js",

@@ -1,4 +1,5 @@
 /* # import fonts */
+/* ! Fonts are under a seperate license, view it at ./fonts/LICENSE.txt ! */
 @font-face {
     font-family: 'Atkinson Hyperlegible Next';
     src: url('./fonts/AtkinsonHyperlegibleNext.ttf') format('truetype');
@@ -563,6 +564,9 @@ samp {
     margin: 1.5em 0;
     border-collapse: collapse;
     font-size: var(--text-sm);
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .content th,
 .content td {
@@ -949,4 +953,26 @@ pre code.plaintext {
     color: var(--primary);
     border-left-color: var(--primary);
     font-weight: 700;
+}
+
+/* * make printing look nice */
+@media print {
+    .topbar,
+    .sidebar,
+    .toc,
+    .copy-btn,
+    .overlay {
+        display: none !important;
+    }
+    .layout {
+        display: block;
+        padding: 0;
+    }
+    .content {
+        max-width: 100%;
+        padding: 0;
+    }
+    pre {
+        white-space: pre-wrap;
+    }
 }
