@@ -60,6 +60,19 @@ export default {
             },
             cache: true,
         },
+        topbarContent: {
+            helper: (slug, config) => {
+                if (!config.topbarLinks) return '';
+
+                let topbarLinksHTML = '';
+
+                config.topbarLinks.forEach((linkObject) => {
+                    topbarLinksHTML += `<a href="${linkObject.link}">${linkObject.title}</a>`;
+                });
+                return topbarLinksHTML;
+            },
+            cache: true,
+        },
     },
 
     setup(api) {

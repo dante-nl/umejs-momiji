@@ -325,6 +325,48 @@ samp {
     font-size: var(--text-sm);
 }
 
+/* * accomodations for the index theme */
+.layout--landing {
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    grid-template-areas: 'sidebar content';
+}
+
+/* override the large desktop 3-column grid for the landing page */
+@media (min-width: 1200px) {
+    .layout--landing {
+        grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+        grid-template-areas: 'sidebar content';
+    }
+}
+
+/* mobile adjustments for landing page */
+@media (max-width: 768px) {
+    .layout--landing {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'content';
+    }
+}
+
+/* make the landing page content feel a bit more welcoming */
+.content--landing {
+    max-width: 52rem;
+    padding-top: var(--space-12);
+}
+
+.content--landing h1 {
+    border-bottom: none;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+}
+
+.content--landing > p:first-of-type {
+    font-size: var(--text-xl);
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+}
+
 /* # sidebar */
 
 .sidebar__nav ul {

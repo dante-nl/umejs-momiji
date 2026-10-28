@@ -1,0 +1,63 @@
+<!-- # @dantenl/ume-red-maple (index layout) -->
+<!doctype html>
+<html lang="en" data-theme="light">
+    <head>
+        {_INCLUDE("head.ume.html")}
+    </head>
+    <body>
+        <a class="skip-link" href="#main-content">Skip to content</a>
+
+        <header class="topbar">{_INCLUDE("header.ume.html")}</header>
+
+        <div class="layout layout--landing">
+            <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+                <nav class="sidebar__nav">{sidebarMenu}</nav>
+            </aside>
+
+            <main class="content content--landing" id="main-content">{_BODY}</main>
+        </div>
+
+        {_INCLUDE("footer.ume.html")}
+
+        <div class="overlay" id="overlay" hidden></div>
+
+        <dialog id="search-modal" class="search-modal">
+            <div class="search-modal__header">
+                <svg
+                    class="search__icon"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input
+                    type="search"
+                    id="search-modal-input"
+                    placeholder="Search documentation..."
+                    autocomplete="off"
+                />
+                <button
+                    id="search-modal-close"
+                    class="search-modal__close"
+                    aria-label="Close search"
+                >
+                    <kbd>ESC</kbd>
+                </button>
+            </div>
+            <ul id="search-modal-results" class="search-modal__results"></ul>
+        </dialog>
+
+        <script id="search-index-data" type="application/json">
+            {searchIndexJson}
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script src="{_BASE}/_ume/assets/main.js"></script>
+    </body>
+</html>

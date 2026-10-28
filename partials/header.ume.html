@@ -18,14 +18,12 @@
 </a>
 
 <nav class="topbar__nav" aria-label="Primary">
-    <a href="/docs">Docs</a>
-    <a href="/guide">Guide</a>
-    <a href="/api">API</a>
+    <!-- dynamic loading of the topbar -->
+    {topbarContent}
 </nav>
 
 <div class="topbar__actions">
     <div class="topbar__actions">
-        <!-- Replaced input with button -->
         <button class="search-trigger" aria-label="Search documentation">
             <svg
                 class="search__icon"
