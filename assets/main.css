@@ -785,7 +785,8 @@ samp {
     color: var(--text);
 }
 .search-result:hover,
-.search-result:focus {
+.search-result:focus,
+.search-result.is-active {
     background: var(--surface-hover);
     outline: none;
 }
