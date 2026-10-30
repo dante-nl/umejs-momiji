@@ -6,8 +6,14 @@ import matter from 'lite-matter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+let themeConfig = {};
+let pageMetadata = {};
+
 export default {
     name: 'umejs-red-maple',
+    version: '1.0.0',
+    umeVersion: '^1.4.0',
+
     entryTemplate: 'layout.ume.html',
     templatesDir: path.join(__dirname, 'templates'),
     partialsDir: path.join(__dirname, 'partials'),
@@ -15,10 +21,20 @@ export default {
 
     config: {
         siteTitle: 'umejs-red-maple',
+        colors: {
+            light: {
+                primary: '#f1414d;',
+                accent: '#e95d67;',
+            },
+            dark: {
+                primary: '#be0e1a',
+                accent: '#a2161f',
+            },
+        },
     },
 
     // register the builder
-    builders: [tocBuilder],
+    builders: [pageBuilder],
 
     helpers: {
         year: () => new Date().getFullYear(),
@@ -76,22 +92,52 @@ export default {
     },
 
     setup(api) {
+        themeConfig = api.config;
+        // cache config for builder
+
         const contentDir = api.config._ume?.contentDir;
 
         if (contentDir && fs.existsSync(contentDir)) {
-            const { sidebarTree, searchIndex } = buildTree(contentDir);
+            const { sidebarTree, searchIndex, metaCache } = buildTree(contentDir);
 
             api.registerHelper('sidebarMenu', () => renderSidebar(sidebarTree));
             api.registerHelper('searchIndexJson', () => JSON.stringify(searchIndex));
+
+            // store metadata for the builder
+            pageMetadata = metaCache;
         }
     },
 };
 
-// # build table of contents
-export function tocBuilder(req, res, slug, html) {
+// # build table of contents and opengraph
+function pageBuilder(req, res, slug, html) {
     if (!html) return html;
 
     const root = parse(html);
+
+    // * generate meta tags
+    const head = root.querySelector('head');
+    if (head) {
+        const normalizedSlug = slug.startsWith('/') ? slug : `/${slug}`;
+        const meta = pageMetadata[normalizedSlug] || {};
+
+        const description =
+            meta.description || themeConfig.siteDescription || 'Documentation powered by umejs';
+        const title = meta.title || themeConfig.siteTitle || 'Documentation';
+
+        // light mode color
+        const lightColor = themeConfig.colors?.light?.primary;
+        // dark mode color
+        const darkColor = themeConfig.colors?.dark?.primary;
+
+        head.appendChild(`
+            <meta name="description" content="${description}" />
+            <meta property="og:title" content="${title}" />
+            <meta property="og:description" content="${description}" />
+            <meta name="theme-color" content="${lightColor}" media="(prefers-color-scheme: light)" />
+            <meta name="theme-color" content="${darkColor}" media="(prefers-color-scheme: dark)" />
+        `);
+    }
 
     // find the main content area
     const content = root.querySelector('#main-content');
@@ -140,6 +186,7 @@ function buildTree(dir, baseRoute = '') {
     const files = fs.readdirSync(dir, { withFileTypes: true });
     let nodes = [];
     let index = [];
+    let metaCache = {};
 
     for (const file of files) {
         const fullPath = path.join(dir, file.name);
@@ -191,6 +238,17 @@ function buildTree(dir, baseRoute = '') {
                     .replace(/-/g, ' ')
                     .replace(/\b\w/g, (l) => l.toUpperCase());
 
+            metaCache[url] = {
+                title: title,
+                description:
+                    data.description ||
+                    parsed.content
+                        .substring(0, 150)
+                        .replace(/[#*`_\[\]]/g, '')
+                        .replace(/\n/g, ' ')
+                        .trim(),
+            };
+
             nodes.push({
                 type: 'page',
                 title,
@@ -217,7 +275,7 @@ function buildTree(dir, baseRoute = '') {
         return a.title.localeCompare(b.title);
     });
 
-    return { sidebarTree: nodes, searchIndex: index };
+    return { sidebarTree: nodes, searchIndex: index, metaCache };
 }
 
 function renderSidebar(nodes) {
