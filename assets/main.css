@@ -675,6 +675,60 @@ samp {
     --callout-color: var(--callout-caution);
 }
 
+/* # pagination */
+/* # Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+}
+
+.pagination__link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text);
+    transition:
+        border-color var(--transition),
+        background var(--transition);
+    flex: 1;
+    max-width: 50%;
+}
+
+.pagination__link:hover {
+    border-color: var(--primary);
+    background: var(--surface);
+}
+
+.pagination__next {
+    text-align: right;
+}
+
+.pagination__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-1);
+}
+
+.pagination__title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: var(--text-base);
+}
+
+.pagination__link:hover .pagination__title {
+    color: var(--accent);
+}
+
 /* # table of contents */
 /* * only visible on large desktops */
 .toc__title {

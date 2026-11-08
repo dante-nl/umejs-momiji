@@ -31,6 +31,13 @@ export default {
                 accent: '#a2161f',
             },
         },
+
+        highlightTheme: {
+            light: 'github',
+            dark: 'github-dark',
+        },
+        favicon: '/favicon.ico',
+        ogImage: '/og-image.png',
     },
 
     // register the builder
@@ -103,6 +110,55 @@ export default {
             api.registerHelper('sidebarMenu', () => renderSidebar(sidebarTree));
             api.registerHelper('searchIndexJson', () => JSON.stringify(searchIndex));
 
+            function flattenTree(nodes) {
+                let result = [];
+                for (const node of nodes) {
+                    if (node.type === 'page') result.push(node);
+                    else if (node.type === 'group')
+                        result = result.concat(flattenTree(node.children));
+                }
+                return result;
+            }
+            const flatPages = flattenTree(sidebarTree);
+
+            // register pagination helper
+            api.registerHelper('prevNext', (req, res, slug) => {
+                if (!flatPages.length) return '';
+
+                // normalize slug for matching
+                let normalizedSlug = slug.startsWith('/') ? slug : `/${slug}`;
+                normalizedSlug = normalizedSlug.replace(/\/index$/, '/'); // handle index
+
+                const index = flatPages.findIndex(
+                    (p) => p.url === normalizedSlug || p.url === normalizedSlug + '/',
+                );
+
+                if (index === -1) return '';
+
+                const prev = index > 0 ? flatPages[index - 1] : null;
+                const next = index < flatPages.length - 1 ? flatPages[index + 1] : null;
+
+                let html = '<nav class="pagination" aria-label="Pagination">';
+                if (prev) {
+                    html += `<a href="${prev.url}" class="pagination__link pagination__prev">
+                        <span class="pagination__label">Previous</span>
+                        <span class="pagination__title">${prev.title}</span>
+                    </a>`;
+                } else {
+                    html += `<div></div>`; // spacer for flexbox
+                }
+
+                if (next) {
+                    html += `<a href="${next.url}" class="pagination__link pagination__next">
+                        <span class="pagination__label">Next</span>
+                        <span class="pagination__title">${next.title}</span>
+                    </a>`;
+                }
+                html += '</nav>';
+
+                return html;
+            });
+
             // store metadata for the builder
             pageMetadata = metaCache;
         }
@@ -132,13 +188,39 @@ function pageBuilder(req, res, slug, html) {
         // dark mode color
         const darkColor = themeConfig.colors?.dark?.primary;
 
+        let extraHeadTags = '';
+        if (themeConfig.favicon) {
+            extraHeadTags += `<link rel="icon" href="${themeConfig.favicon}" />`;
+        }
+        if (themeConfig.ogImage) {
+            extraHeadTags += `<meta property="og:image" content="${themeConfig.ogImage}" />`;
+        }
+
+        if (themeConfig.highlightTheme) {
+            const hTheme = themeConfig.highlightTheme;
+            // support strings so it can either be a string or object to define the theme
+            const lightTheme = typeof hTheme === 'string' ? hTheme : hTheme.light || 'github';
+            const darkTheme = typeof hTheme === 'string' ? hTheme : hTheme.dark || 'github-dark';
+
+            extraHeadTags += `<link id="hljs-theme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${lightTheme}.min.css" data-light="${lightTheme}" data-dark="${darkTheme}" />`;
+        }
+
         head.appendChild(`
             <meta name="description" content="${description}" />
             <meta property="og:title" content="${title}" />
             <meta property="og:description" content="${description}" />
             <meta name="theme-color" content="${lightColor}" media="(prefers-color-scheme: light)" />
             <meta name="theme-color" content="${darkColor}" media="(prefers-color-scheme: dark)" />
+            ${extraHeadTags}
         `);
+
+        // head.appendChild(`
+        //     <meta name="description" content="${description}" />
+        //     <meta property="og:title" content="${title}" />
+        //     <meta property="og:description" content="${description}" />
+        //     <meta name="theme-color" content="${lightColor}" media="(prefers-color-scheme: light)" />
+        //     <meta name="theme-color" content="${darkColor}" media="(prefers-color-scheme: dark)" />
+        // `);
     }
 
     // find the main content area

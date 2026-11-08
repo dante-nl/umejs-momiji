@@ -11,11 +11,14 @@ function getInitialTheme() {
 function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     const hljsLink = document.getElementById('hljs-theme');
+
     if (hljsLink) {
-        hljsLink.href =
-            theme === 'dark'
-                ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
-                : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+        // read theme names from the data attributes
+        const themeName = theme === 'dark' ? hljsLink.dataset.dark : hljsLink.dataset.light;
+
+        if (themeName) {
+            hljsLink.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${themeName}.min.css`;
+        }
     }
 }
 
@@ -63,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebarLinks.forEach((link) => {
         if (link.getAttribute('href') === currentPath) {
             link.setAttribute('aria-current', 'page');
+
+            // auto scroll sidebar to center active link
+            link.scrollIntoView({ block: 'center', behavior: 'instant' });
+
             // Open parent <details> elements
             let parent = link.closest('details');
             while (parent) {
