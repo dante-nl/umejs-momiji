@@ -36,8 +36,9 @@ export default {
             light: 'github',
             dark: 'github-dark',
         },
-        favicon: '/favicon.ico',
-        ogImage: '/og-image.png',
+        logo: '◆',
+        // favicon: '/favicon.ico',
+        // ogImage: '/og-image.png',
     },
 
     // register the builder
@@ -93,6 +94,31 @@ export default {
                     topbarLinksHTML += `<a href="${linkObject.link}">${linkObject.title}</a>`;
                 });
                 return topbarLinksHTML;
+            },
+            cache: true,
+        },
+        logoHtml: {
+            helper: (slug, config) => {
+                const logo = config.logo;
+                if (!logo) return ''; // if set to null/false, hide it entirely
+
+                // check if it's an image path (starts with / or http, or ends with image extension)
+                if (
+                    typeof logo === 'string' &&
+                    (logo.startsWith('/') ||
+                        logo.startsWith('http') ||
+                        /\.(svg|png|jpg|jpeg|webp|gif)$/i.test(logo))
+                ) {
+                    return `<img src="${logo}" alt="Logo" class="topbar__logo-img" />`;
+                }
+
+                // check if custom HTML object is passed (e.g., an inline SVG)
+                if (typeof logo === 'object' && logo.html) {
+                    return logo.html;
+                }
+
+                // else, treat it as text/emoji
+                return `<span class="topbar__logo">${logo}</span>`;
             },
             cache: true,
         },
