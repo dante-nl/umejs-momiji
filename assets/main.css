@@ -31,6 +31,7 @@
     font-style: italic;
     font-display: swap;
 }
+
 /* # design variables */
 :root[data-theme='light'] {
     --text: #1d0c0e;
@@ -38,6 +39,12 @@
     --primary: #f1414d;
     --secondary: #e8878e;
     --accent: #e95d67;
+
+    --callout-note: #0969da;
+    --callout-tip: #1a7f37;
+    --callout-important: #8250df;
+    --callout-warning: #9a6700;
+    --callout-caution: #cf222e;
 
     --surface: color-mix(in srgb, var(--background) 92%, var(--text) 8%);
     --surface-hover: color-mix(in srgb, var(--background) 85%, var(--text) 15%);
@@ -55,6 +62,12 @@
     --primary: #be0e1a;
     --secondary: #78171d;
     --accent: #a2161f;
+
+    --callout-note: #58a6ff;
+    --callout-tip: #3fb950;
+    --callout-important: #a371f7;
+    --callout-warning: #d29922;
+    --callout-caution: #f85149;
 
     --surface: color-mix(in srgb, var(--background) 88%, var(--text) 12%);
     --surface-hover: color-mix(in srgb, var(--background) 80%, var(--text) 20%);
@@ -521,18 +534,6 @@ samp {
     margin-top: 0.35em;
 }
 
-.content blockquote {
-    margin: 1.5em 0;
-    padding: var(--space-3) var(--space-6);
-    border-left: 3px solid var(--primary);
-    background: var(--surface);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    color: var(--muted);
-}
-.content blockquote > :last-child {
-    margin-bottom: 0;
-}
-
 .content code:not(pre code) {
     padding: 0.15em 0.4em;
     font-size: 0.88em;
@@ -607,6 +608,71 @@ samp {
     border-bottom-width: 2px;
     border-radius: var(--radius-sm);
     background: var(--surface);
+}
+
+/* blockquite and callouts */
+.content blockquote {
+    margin: 1.5em 0;
+    padding: var(--space-3) var(--space-6);
+    border-left: 3px solid var(--primary);
+    background: var(--surface);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    color: var(--muted);
+}
+.content blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+.content .callout {
+    margin: 1.5em 0;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    border-left: 3px solid;
+    background: color-mix(in srgb, var(--callout-color) 10%, var(--background));
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    border-color: var(--callout-color);
+}
+
+.content .callout-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85em;
+    color: var(--callout-color);
+}
+
+.content .callout-content p {
+    margin-bottom: 0;
+}
+.content .callout-content p:last-child {
+    margin-bottom: 0;
+}
+
+.callout-icon {
+    width: 1.2em;
+    height: 1.2em;
+    fill: currentColor;
+}
+
+.content .callout-note {
+    --callout-color: var(--callout-note);
+}
+.content .callout-tip {
+    --callout-color: var(--callout-tip);
+}
+.content .callout-important {
+    --callout-color: var(--callout-important);
+}
+.content .callout-warning {
+    --callout-color: var(--callout-warning);
+}
+.content .callout-caution {
+    --callout-color: var(--callout-caution);
 }
 
 /* # table of contents */
