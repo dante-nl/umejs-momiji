@@ -20,7 +20,7 @@ export default {
     assetsDir: path.join(__dirname, 'assets'),
 
     config: {
-        siteTitle: 'umejs-momiji',
+        siteTitle: 'an umejs-momiji documentation site',
         colors: {
             light: {
                 primary: '#f1414d;',
