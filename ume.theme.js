@@ -10,7 +10,7 @@ let themeConfig = {};
 let pageMetadata = {};
 
 export default {
-    name: 'umejs-red-maple',
+    name: 'umejs-momiji',
     version: '1.0.0',
     umeVersion: '^1.4.0',
 
@@ -20,7 +20,7 @@ export default {
     assetsDir: path.join(__dirname, 'assets'),
 
     config: {
-        siteTitle: 'umejs-red-maple',
+        siteTitle: 'umejs-momiji',
         colors: {
             light: {
                 primary: '#f1414d;',
