@@ -1,5 +1,6 @@
 advertising/
 .github/
+tests/
 package-lock.json
 .prettierrc
 
