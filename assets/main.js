@@ -67,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (link.getAttribute('href') === currentPath) {
             link.setAttribute('aria-current', 'page');
 
-            // auto scroll sidebar to center active link
-            link.scrollIntoView({ block: 'center', behavior: 'instant' });
-
             // Open parent <details> elements
             let parent = link.closest('details');
             while (parent) {
