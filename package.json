@@ -1,7 +1,7 @@
 {
     "name": "@dantenl/umejs-momiji",
-    "version": "1.0.0",
-    "description": "A theme for umejs focussed on documentation",
+    "version": "1.0.0-dev.1",
+    "description": "A theme for umejs focused on documentation",
     "main": "ume.theme.js",
     "scripts": {
         "test": "node --test",
