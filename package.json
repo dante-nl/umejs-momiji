@@ -1,8 +1,9 @@
 {
     "name": "@dantenl/umejs-momiji",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A theme for umejs focused on documentation",
     "main": "ume.theme.js",
+    "repository": "https://github.com/dante-nl/umejs-momiji",
     "scripts": {
         "test": "node --test",
         "lint": "eslint .",
