@@ -1,0 +1,98 @@
+name: Publish to npm
+
+on:
+    release:
+        types: [created]
+    workflow_dispatch:
+
+jobs:
+    # get latest major versions from node
+    get-lts-versions:
+        runs-on: ubuntu-latest
+        outputs:
+            versions: ${{ steps.get-versions.outputs.lts }}
+        steps:
+            - id: get-versions
+              uses: msimerson/node-lts-versions@v2
+
+    # run test
+    test:
+        needs: get-lts-versions
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: ${{ fromJson(needs.get-lts-versions.outputs.versions) }}
+            fail-fast: false
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run ESLint
+              run: npm run lint
+
+            - name: Run Prettier
+              run: npx prettier --check .
+
+            - name: Run Tests
+              run: npm test
+
+    # publish to npm
+    publish-npm:
+        needs: test
+        if: github.event.release.prerelease == false
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 'lts/*'
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Publish Package via Trusted Publisher
+              run: npm publish --access public --provenance
+
+    # publish prereleases from the dev branch
+    publish-prerelease:
+        needs: test
+        if: github.event.release.prerelease == true && github.event.release.target_commitish == 'dev'
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 'lts/*'
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build ESM and JSDoc Types
+              run: |
+                  npm run build
+                  npm run build:types
+            - name: Publish Package via Trusted Publisher
+              run: npm publish --access public --provenance --tag dev
