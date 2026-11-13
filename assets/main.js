@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hljs.highlightElement(block);
             addCopyButton(block);
         } else {
-            // Prevent hljs from mangling plaintext blocks
+            // prevent hljs from mangling plaintext blocks
             block.classList.add('plaintext', 'hljs');
             addCopyButton(block);
         }
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await navigator.clipboard.writeText(codeText);
                 showCopiedState(btn);
-            } catch (err) {
+            } catch {
                 fallbackCopy(codeText, btn);
             }
         });
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             document.execCommand('copy');
             showCopiedState(btn);
-        } catch (err) {
+        } catch {
             alert('Unable to copy. Please copy manually.');
         }
         document.body.removeChild(textarea);

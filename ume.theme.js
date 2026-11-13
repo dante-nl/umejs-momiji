@@ -404,7 +404,7 @@ export function buildTree(dir, baseRoute = '') {
                     data.description ||
                     parsed.content
                         .substring(0, 150)
-                        .replace(/[#*`_\[\]]/g, '')
+                        .replace(/[#*`_[]]/g, '')
                         .replace(/\n/g, ' ')
                         .trim(),
             };
@@ -421,7 +421,7 @@ export function buildTree(dir, baseRoute = '') {
                 url,
                 category: data.sidebar_group || baseRoute.replace(/^\//, '') || 'Root',
                 content: parsed.content
-                    .replace(/[#*`_\[\]]/g, '')
+                    .replace(/[#*`_[]]/g, '')
                     .replace(/\n/g, ' ')
                     .substring(0, 1500)
                     .trim(),
