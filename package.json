@@ -1,7 +1,7 @@
 {
     "name": "@dantenl/umejs-momiji",
     "version": "1.0.0",
-    "description": "A theme for umejs focussed on documentation",
+    "description": "A theme for umejs focused on documentation",
     "main": "ume.theme.js",
     "scripts": {
         "test": "node --test",
@@ -39,5 +39,6 @@
         "eslint": "^10.14.0",
         "globals": "^17.14.0",
         "prettier": "^3.10.1"
-    }
+    },
+    "license": "GPL-3.0-only"
 }

@@ -90,9 +90,5 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Build ESM and JSDoc Types
-              run: |
-                  npm run build
-                  npm run build:types
             - name: Publish Package via Trusted Publisher
               run: npm publish --access public --provenance --tag dev
