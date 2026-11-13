@@ -21,6 +21,7 @@ export default {
 
     config: {
         siteTitle: 'an umejs-momiji documentation site',
+        siteDescription: 'built with umejs',
         colors: {
             light: {
                 primary: '#f1414d;',
@@ -239,14 +240,6 @@ function pageBuilder(req, res, slug, html) {
             <meta name="theme-color" content="${darkColor}" media="(prefers-color-scheme: dark)" />
             ${extraHeadTags}
         `);
-
-        // head.appendChild(`
-        //     <meta name="description" content="${description}" />
-        //     <meta property="og:title" content="${title}" />
-        //     <meta property="og:description" content="${description}" />
-        //     <meta name="theme-color" content="${lightColor}" media="(prefers-color-scheme: light)" />
-        //     <meta name="theme-color" content="${darkColor}" media="(prefers-color-scheme: dark)" />
-        // `);
     }
 
     // find the main content area
