@@ -39,5 +39,6 @@
         "eslint": "^10.14.0",
         "globals": "^17.14.0",
         "prettier": "^3.10.1"
-    }
+    },
+    "license": "GPL-3.0-only"
 }
