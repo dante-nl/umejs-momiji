@@ -1,0 +1,9 @@
+advertising/
+.github/
+package-lock.json
+.prettierrc
+
+# .gitignore:
+.vscode
+node_modules
+.DS_Store
