@@ -3,8 +3,8 @@ advertising/
 tests/
 package-lock.json
 .prettierrc
+.vscode
 
 # .gitignore:
-.vscode
 node_modules
 .DS_Store
